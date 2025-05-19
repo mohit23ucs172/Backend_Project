@@ -1,0 +1,17 @@
+{
+  "name": "mohit-backend",
+  "version": "1.0.0",
+  "description": "a  backend  project by mohit tiwari",
+  "keywords": [
+    "javascript",
+    "backend",
+    "chai"
+  ],
+  "license": "ISC",
+  "author": "MOHIT TIWARI",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
