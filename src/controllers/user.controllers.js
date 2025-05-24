@@ -51,15 +51,42 @@ if(existedUser){
   throw new ApiError(409,"User already exists")
 }
 
-const avatarLocalPath=req.files?.avatar[0]?.path;
-const coverImageLocalPath=req.files?.coverImage[0]?.path;
+// console.log("req.files: ",req.files)
 
-if(!avatarLocalPath){
-  throw new ApiError(400,"Avatar file is Required")
+const avatarLocalPath=req.files?.avatar[0]?.path;
+// const coverImageLocalPath=req.files?.coverImage[0]?.path;
+
+
+
+let coverImage = { url: "" }; // Default empty object
+
+if (
+  req.files &&
+  Array.isArray(req.files.coverImage) &&
+  req.files.coverImage.length > 0
+) {
+  const coverImageLocalPath = req.files.coverImage[0].path;
+
+  if (coverImageLocalPath) {
+    const uploadedCover = await uploadOnCloudinary(coverImageLocalPath);
+    if (uploadedCover?.url) {
+      coverImage = uploadedCover;
+    }
+  }
 }
 
+
+
+
+
+// let coverImageLocalPath;
+// if(req.files &&Array.isArray(req.files.coverImage) && req.files.coverImage.length>0){
+//   coverImageLocalPath=req.files.coverImage[0].path
+// }
+
+
 const avatar=await uploadOnCloudinary(avatarLocalPath)
-const coverImage=await uploadOnCloudinary(coverImageLocalPath)
+// const coverImage=await uploadOnCloudinary(coverImageLocalPath)
 
 
  if(!avatar?.url){
@@ -72,7 +99,7 @@ const user= await User.create({
   userName,
   password,
   avatar:avatar.url,
-  coverImage:coverImage.url ||""
+  coverImage:coverImage.url || ""
  });
 
 const createdUser=await User.findById(user._id).select("-password -refreshToken")
@@ -80,7 +107,7 @@ const createdUser=await User.findById(user._id).select("-password -refreshToken"
 if(!createdUser){
   throw new ApiError(500,"SomeThing went wrong while creating User ")
 }
-
+// console.log(createdUser);
 return res.status(201).json(
   new ApiResponse(200,createdUser,"User Created Successfully")
 )
