@@ -2,7 +2,7 @@ import { Router } from "express"
 import {logoutUser,loginUser,registerUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAcccountDetails, updateUserAvatar, updateUserCoverImage, getUserChannelProfile, getWatchHistory} from "../controllers/user.controllers.js"
 import {upload} from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
-import multer from "multer"
+
 const router =Router()
 
 router.route("/register").post(

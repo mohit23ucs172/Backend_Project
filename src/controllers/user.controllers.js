@@ -184,10 +184,11 @@ return res.status(200)
   User.findByIdAndUpdate(
   req.user._id,
   {
-    $set:{
-      refreshToken:undefined
+    $unset:{
+      refreshToken:1
     }
   },
+  
    {
     new:true
    }
